@@ -74,7 +74,3 @@ Additional Command-Line Arguments:
   -c               Done? Clean up downloaded files and logs
   -h               Display this help message
 ```
-
-
-- [ ] Debug editor of choice option with the `-e` flag. Note that FileForge is running Visual Studio Code by default. Others will not work sufficiently.
-- [ ] Add `--flatten` option to copy all of the files directly into the target directory without creating a new folder.
