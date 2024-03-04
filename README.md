@@ -25,7 +25,10 @@ In essence, it eliminates the need for manually typing all commands, downloading
 **IMPORTANT NOTE**: This tool is still under construction, so updates will be added in the future to make it more streamlined. Currently the linHunter binary only accepts file transfer over HTTP.
 
 **linHunter PoC example screenshot**:
-![2024-02-14_12-58](https://github.com/Mithlonde/Hunter/assets/88001670/7f7cb02f-6035-4db2-85fa-17d2e5aec139)
+![image](https://github.com/Mithlonde/Hunter/assets/88001670/8aed7c19-fd78-4055-a53d-20cc78611303)
+![image](https://github.com/Mithlonde/Hunter/assets/88001670/75b04088-5332-48b0-8e60-69bf0534957a)
+![image](https://github.com/Mithlonde/Hunter/assets/88001670/bc1c422a-09a0-4325-af14-6662ceecde9b)
+![image](https://github.com/Mithlonde/Hunter/assets/88001670/bd03b7b7-584d-48e0-a117-43459377c1ee)
 
 **winHunter PoC example screenshots**:
 ![winHunter-example](https://github.com/Mithlonde/Hunter/assets/88001670/05687cb8-2735-486f-9508-6d206b08c53b)
