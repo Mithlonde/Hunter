@@ -50,6 +50,10 @@ Options:
 Info: To terminate any background processes started by this script, use the following commands:
   pkill -f "pspy64"    Terminate pspy64 background process
   pkill -f "linpeas"   Terminate linpeas background process
+
+About Method:
+  http             Download function requires: python3 -m http.server 80
+                   Upload function requires: python3 -m uploadserver
 ```
 
 Where LinHunter is a fully functional tool including command-line parser options, WinHunter works slightly different while having the same functionalities. With winHunter you can specify the ListeningHost and Method via the script itself:
