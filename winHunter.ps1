@@ -2,7 +2,7 @@
 # Version:              1.2
 # winHunter Author:     Mithlonde
 # Creation Date:        27/02/2024
-# Website:              https://github.com/Mithlonde/
+# Website:              https://github.com/Mithlonde/Hunter
 
 # Define color and formatting variables
 $White = [System.ConsoleColor]::White
