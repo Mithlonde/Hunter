@@ -3,7 +3,7 @@
 # Version:              1.1
 # linHunter Author:     Mithlonde Last updated: 
 # Creation Date:        16/02/2024
-# Website:              https://github.com/Mithlonde/
+# Website:              https://github.com/Mithlonde/Hunter
 
 # Define color and formatting variables
 C=$(printf '\033')
