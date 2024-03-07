@@ -38,6 +38,22 @@ $logsToUpload = @("winpeas.log", "powerup.log", "schtasks.txt", "tasklist.txt", 
 # impacket-smbserver share . -smb2support
 
 ###########################################
+#---------------) Header (----------------#
+###########################################
+
+Write-Host ""
+Write-Host "   ▄ ▄   ▄█    ▄    ▄  █   ▄      ▄     ▄▄▄▄▀ ▄███▄   █▄▄▄▄ "
+Write-Host "  █   █  ██     █  █   █    █      █ ▀▀▀ █    █▀   ▀  █  ▄▀ "
+Write-Host " █ ▄   █ ██ ██   █ ██▀▀█ █   █ ██   █    █    ██▄▄    █▀▀▌  "
+Write-Host " █  █  █ ▐█ █ █  █ █   █ █   █ █ █  █   █     █▄   ▄▀ █  █  "
+Write-Host "  █ █ █   ▐ █  █ █    █  █▄ ▄█ █  █ █  ▀      ▀███▀     █   "
+Write-Host "   ▀ ▀      █   ██   ▀    ▀▀▀  █   ██                  ▀    "
+Write-Host ""                                                         
+Write-Host "                Windows PrivEsc Hunter V1.2                 "
+Write-Host "                       by Mithlonde                         "
+Write-Host ""                                                 
+
+###########################################
 #-------------) Help Legend (-------------#
 ###########################################
 
@@ -478,5 +494,3 @@ elseif ($Method -eq "smb") {
 Write-Color "[!] Done? Clean up downloaded files and logs from $(hostname) using '.\$ScriptName -c'" -Color Red
 Write-Host ""
 Write-Color "Happy hunting!" -Color Yellow
-
-
