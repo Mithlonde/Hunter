@@ -1,8 +1,8 @@
 #!/bin/bash
 # 
-# Version:              1.1
+# Version:              1.2
 # linHunter Author:     Mithlonde Last updated: 
-# Creation Date:        16/02/2024
+# Creation Date:        07/03/2024
 # Website:              https://github.com/Mithlonde/Hunter
 
 # Define color and formatting variables
@@ -16,6 +16,22 @@ NC="${C}[0m" # Neutral Color
 script_name=$(basename "$0")
 output_file_name="$(basename "$script_name" .sh).log"  # Removes .sh extension and appends .log
 CWD=$(pwd)
+
+###########################################
+#---------------) Header (----------------#
+###########################################
+
+	echo ""
+	echo " █    ▄█    ▄    ▄  █   ▄      ▄     ▄▄▄▄▀ ▄███▄   █▄▄▄▄ "
+	echo " █    ██     █  █   █    █      █ ▀▀▀ █    █▀   ▀  █  ▄▀ "
+	echo " █    ██ ██   █ ██▀▀█ █   █ ██   █    █    ██▄▄    █▀▀▌  "
+	echo " ███▄ ▐█ █ █  █ █   █ █   █ █ █  █   █     █▄   ▄▀ █  █  "
+	echo "     ▀ ▐ █  █ █    █  █▄ ▄█ █  █ █  ▀      ▀███▀     █   "
+	echo "         █   ██   ▀    ▀▀▀  █   ██                  ▀    "
+	echo ""                                                         
+	echo "               Linux PrivEsc Hunter V1.2                 "
+	echo "                     by Mithlonde                        "
+	echo ""
 
 ###########################################
 #-------------) Help Legend (-------------#
@@ -108,24 +124,6 @@ cleanup() {
     fi
     exit 0
 }
-
-###########################################
-#--------) Starting Enumeration (---------#
-###########################################
-
-# Get current working directory
-
-# echo -e "${WHITE}Running commands as $(whoami)@$(hostname):${CWD}${NC}"
-# echo ""
-
-# Print [+] with bold formatting
-# echo -e "${YELLOW}[+] ${WHITE}YELLOW...${NC}"
-# # echo -e "${RED}[+] ${WHITE}Red...${NC}"
-# echo -e "${BLUE}[+] ${WHITE}Blue...${NC}"
-# echo -e "${WHITE}[+] ${WHITE}White...${NC}"
-# echo -e "${NC}[+] ${NC}Neutral...${NC}"
-# echo "testing ${RED}color${NC} formatting"
-# echo ""
 
 ###########################################
 #---------) Downloader Function (---------#
@@ -405,8 +403,6 @@ auto_enum_plus_redirect() {
 
     # Wait for linpeas.sh to finish
     wait $!
-    #sleep 5 #<-- test, uncomment once done
-    #pkill -f "linpeas" #<-- test, uncomment once done
     end_time=$(date +%s)
     duration=$((end_time - start_time))
     minutes=$((duration / 60))
@@ -427,7 +423,6 @@ auto_enum_plus_redirect() {
 
     # Sleep for 5 minutes while pspy64 runs 
     sleep 300
-    #sleep 5 #<-- test, uncomment once done
     kill $pspy_pid
     end_time=$(date +%s)
     duration=$((end_time - start_time))
