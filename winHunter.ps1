@@ -42,16 +42,15 @@ $logsToUpload = @("winpeas.log", "powerup.log", "schtasks.txt", "tasklist.txt", 
 ###########################################
 
 Write-Host ""
-Write-Host "   ▄ ▄   ▄█    ▄    ▄  █   ▄      ▄     ▄▄▄▄▀ ▄███▄   █▄▄▄▄ "
-Write-Host "  █   █  ██     █  █   █    █      █ ▀▀▀ █    █▀   ▀  █  ▄▀ "
-Write-Host " █ ▄   █ ██ ██   █ ██▀▀█ █   █ ██   █    █    ██▄▄    █▀▀▌  "
-Write-Host " █  █  █ ▐█ █ █  █ █   █ █   █ █ █  █   █     █▄   ▄▀ █  █  "
-Write-Host "  █ █ █   ▐ █  █ █    █  █▄ ▄█ █  █ █  ▀      ▀███▀     █   "
-Write-Host "   ▀ ▀      █   ██   ▀    ▀▀▀  █   ██                  ▀    "
-Write-Host ""                                                         
-Write-Host "                Windows PrivEsc Hunter V1.2                 "
-Write-Host "                       by Mithlonde                         "
-Write-Host ""                                                 
+Write-Host "           _                          _             "
+Write-Host " __      _(_)_ __   /\  /\_   _ _ __ | |_ ___ _ __  "
+Write-Host " \ \ /\ / / | '_ \ / /_/ / | | | '_ \| __/ _ \ '__| "
+Write-Host "  \ V  V /| | | | / __  /| |_| | | | | ||  __/ |    "
+Write-Host "   \_/\_/ |_|_| |_\/ /_/  \__,_|_| |_|\__\___|_|    "
+Write-Host ""
+Write-Host "            Windows PrivEsc Hunter V1.2             "
+Write-Host "                   by Mithlonde                     "
+Write-Host ""                                                
 
 ###########################################
 #-------------) Help Legend (-------------#
