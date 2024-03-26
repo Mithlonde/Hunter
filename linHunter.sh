@@ -1,7 +1,8 @@
 #!/bin/bash
 # 
 # Version:              1.3
-# linHunter Author:     Mithlonde Last updated: 
+# linHunter Author:     Mithlonde 
+# Last updated:         26/03/2024
 # Creation Date:        07/03/2024
 # Website:              https://github.com/Mithlonde/Hunter
 
@@ -280,10 +281,10 @@ manual_enumeration() {
     cat /etc/ssh/*_config | grep 'PermitRoot'
     # Checking SUIDs and GUIDs
     echo -e "$echo_command ${BLUE}find / -perm -u=s -type f 2>/dev/null${NC}"
-    echo -e "${YELLOW}[!] Tip: Any vulnerable SUIDs (see https://gtfobins.github.io/)?${NC}"
+    echo -e "${YELLOW}[!] Tip: Any vulnerable or custom (use strings!) SUIDs (see https://gtfobins.github.io/)?${NC}"
     find / -perm -u=s -type f 2>/dev/null
     echo -e "$echo_command ${BLUE}find / -perm -g=s -type f 2>/dev/null${NC}"
-    echo -e "${YELLOW}[!] Tip: Any vulnerable GUIDs (see https://gtfobins.github.io/)?${NC}"
+    echo -e "${YELLOW}[!] Tip: Any vulnerable or custom (use strings!) GUIDs (see https://gtfobins.github.io/)?${NC}"
     find / -perm -g=s -type f 2>/dev/null
     echo -e "$echo_command ${BLUE}getcap -r / 2>/dev/null${NC}"
     echo -e "${YELLOW}[!] Tip: Anything with cap_setuid+ep (see https://gtfobins.github.io/)?${NC}"
@@ -324,9 +325,14 @@ manual_enumeration() {
     echo -e "$echo_command ${BLUE}ps aux |grep -i 'root' --color=auto${NC}"
     echo -e "${YELLOW}[!] Tip: Is anything vulnerable running as root?${NC}"
     ps aux |grep -i 'root' --color=auto
+    # Find Writable Directories
+    echo -e "$echo_command ${BLUE}find / -path /proc -prune -o -type d -perm -o+w 2>/dev/null${NC}"
+    find / -path /proc -prune -o -type d -perm -o+w 2>/dev/null
+    # Find Writable Files
+    echo -e "$echo_command ${BLUE}find / -path /proc -prune -o -type f -perm -o+w 2>/dev/null${NC}"
+    echo -e "${YELLOW}[!] Tip: Any interesting writable files?${NC}"
+    find / -path /proc -prune -o -type f -perm -o+w 2>/dev/null
     # Checking world writables
-    #echo -e "$echo_command ${BLUE}find / -writable -type d 2>/dev/null${NC}"
-    #find / -writable -type d 2>/dev/null # <----- Uncommented because it gives too much output, check linpeas.log instead!
     echo -e "$echo_command ${BLUE}ls -laht /opt${NC}"
     echo "/opt:"
     ls -laht /opt
@@ -341,9 +347,9 @@ manual_enumeration() {
     echo "/dev/shm:"
     ls -laht /dev/shm
     # Checking var
-    echo -e "$echo_command ${BLUE}ls -laht /var/log${NC}"
+    echo -e "$echo_command ${BLUE}ls -laht /var/log ; cat /var/log/auth.log${NC}"
     echo -e "/var/log:"
-    ls -laht /var/log
+    ls -laht /var/log ; cat /var/log/auth.log
     echo -e "$echo_command ${BLUE}ls -laht /var/mail /var/spool/mail${NC}"
     echo "/var/mail:"
     ls -laht /var/mail
