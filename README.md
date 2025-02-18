@@ -22,7 +22,7 @@ During a penetration test, once you've gained access to the target computer:
 
 In essence, it eliminates the need for manually typing all commands, downloading, uploading, deleting, etc. This allows me to simply let the tool run while you focus on other tasks, saving a significant amount of time. It also makes the process of report writing way easier due to the color rich logging of commands and output.
 
-**IMPORTANT NOTE**: This tool is still under construction, so updates will be added in the future to make it more streamlined. Currently the linHunter binary only accepts file transfer over HTTP.
+**IMPORTANT NOTE**: This tool is still under construction, so updates will be added in the future to make it more streamlined. Currently the linHunter binary only accepts file transfer over HTTP. Additionally, winHunter prints the commands it should be executing for the uploader function correctly, but it doesn't execute them. For now, you can simply copy/paste the commands it prints for you.
 
 **linHunter PoC example screenshot**:
 ![image](https://github.com/Mithlonde/Hunter/assets/88001670/8aed7c19-fd78-4055-a53d-20cc78611303)
